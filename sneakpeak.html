@@ -25,7 +25,7 @@ body {
 
 header {
     text-align: center;
-    padding: 35px 20px 20px;
+    padding: 35px 20px 25px;
 }
 
 header img {
@@ -75,7 +75,7 @@ main {
 
 .video-card {
     background: white;
-    padding: 15px;
+    padding: 14px;
     border-radius: 14px;
     border-top: 5px solid #e87525;
     box-shadow: 0 5px 20px rgba(70, 40, 20, 0.07);
@@ -100,18 +100,6 @@ main {
     color: #79695e;
     font-size: 12px;
     line-height: 1.7;
-}
-
-.video-link {
-    display: inline-block;
-    color: #d76520;
-    font-size: 12px;
-    text-decoration: none;
-    margin-top: 8px;
-}
-
-.video-link:hover {
-    text-decoration: underline;
 }
 
 .note {
@@ -238,46 +226,32 @@ Watch all three to see what's next!
 <iframe
     class="video-frame"
     id="natureVideo"
-    src="https://www.youtube-nocookie.com/embed/i66ntFA7s6g?enablejsapi=1&rel=0&playsinline=1"
+    src="https://www.youtube-nocookie.com/embed/i66ntFA7s6g?enablejsapi=1&rel=0&playsinline=1&controls=0&modestbranding=1"
     title="Nature and Wildlife"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen>
 </iframe>
 
 <h2>Nature & Wildlife</h2>
 <p>Wildlife and the natural world.</p>
 
-<a class="video-link"
-   href="https://www.youtube.com/watch?v=i66ntFA7s6g"
-   target="_blank"
-   rel="noopener noreferrer">
-   Watch on YouTube
-</a>
-
 </div>
 
-<!-- Video 2 -->
+<!-- Birkenstocks: Video 2 -->
 
 <div class="video-card">
 
 <iframe
     class="video-frame"
     id="birksVideo"
-    src="https://www.youtube-nocookie.com/embed/O075UocWd7o?enablejsapi=1&rel=0&playsinline=1"
+    src="https://www.youtube-nocookie.com/embed/O075UocWd7o?enablejsapi=1&rel=0&playsinline=1&controls=0&modestbranding=1"
     title="How to Style Birkenstock Boston Shearling Clogs"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen>
 </iframe>
 
 <h2>Birkenstocks & Socks</h2>
 <p>Fashion and outfit inspiration.</p>
-
-<a class="video-link"
-   href="https://www.youtube.com/watch?v=O075UocWd7o"
-   target="_blank"
-   rel="noopener noreferrer">
-   Watch on YouTube
-</a>
 
 </div>
 
@@ -288,28 +262,21 @@ Watch all three to see what's next!
 <iframe
     class="video-frame"
     id="cookingVideo"
-    src="https://www.youtube-nocookie.com/embed/ro26jWwdbZo?enablejsapi=1&rel=0&playsinline=1"
+    src="https://www.youtube-nocookie.com/embed/ro26jWwdbZo?enablejsapi=1&rel=0&playsinline=1&controls=0&modestbranding=1"
     title="Satisfying Cooking Video"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen>
 </iframe>
 
 <h2>Satisfying Cooking</h2>
 <p>Food and cooking videos.</p>
 
-<a class="video-link"
-   href="https://www.youtube.com/watch?v=ro26jWwdbZo"
-   target="_blank"
-   rel="noopener noreferrer">
-   Watch on YouTube
-</a>
-
 </div>
 
 </div>
 
 <p class="note">
-These videos are embedded from YouTube. Some creators may disable external embedding.
+Videos are provided by YouTube. Player appearance is controlled partly by YouTube.
 </p>
 
 </main>
@@ -356,43 +323,59 @@ function loadYouTubeAPI() {
 }
 
 window.onYouTubeIframeAPIReady = function () {
+
     videoIds.forEach(function (videoId) {
+
         const iframe = document.getElementById(videoId);
 
         new YT.Player(iframe, {
+
             events: {
                 onStateChange: function (event) {
+
                     if (event.data === YT.PlayerState.ENDED) {
+
                         completedVideos.add(videoId);
 
                         if (completedVideos.size === 3) {
+
                             document
                                 .getElementById("watchPopup")
                                 .classList.add("show");
+
                         }
                     }
                 }
             }
+
         });
+
     });
+
 };
 
 loadYouTubeAPI();
 
+/* Close popup */
+
 document
     .getElementById("closePopup")
     .addEventListener("click", function () {
+
         document
             .getElementById("watchPopup")
             .classList.remove("show");
+
     });
 
 document
     .getElementById("watchPopup")
     .addEventListener("click", function (event) {
+
         if (event.target === this) {
             this.classList.remove("show");
         }
+
     });
 </script>
 
