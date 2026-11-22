@@ -6,131 +6,245 @@
 
 <title>Cloudbery</title>
 
+<meta name="description" content="Cloudbery is an open-source social platform where you connect with people who share your interests, discover short videos, and build communities.">
+
 <style>
 
 * {
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #ffffff;
-    color: #222;
+html {
+    scroll-behavior: smooth;
 }
 
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fffaf4;
+    color: #29231f;
+}
+
+/* Header */
+
 header {
-    background: white;
     text-align: center;
-    padding: 70px 20px;
+    padding: 75px 20px 85px;
 }
 
 header img {
-    width: 240px;
-    height: 240px;
+    width: 150px;
+    height: 150px;
     object-fit: contain;
-    border-radius: 35px;
     margin-bottom: 20px;
 }
 
 h1 {
-    font-size: 54px;
+    font-size: 58px;
     margin: 10px 0;
-    color: #7b1e3a;
+    color: #e87525;
 }
 
 .tagline {
-    font-size: 27px;
-    color: #008c8c;
+    font-size: 25px;
+    color: #514239;
     margin-bottom: 20px;
 }
 
 header p {
-    max-width: 700px;
+    max-width: 680px;
     margin: 15px auto;
     font-size: 19px;
+    line-height: 1.7;
+    color: #665b52;
+}
+
+/* Buttons */
+
+.buttons {
+    margin-top: 30px;
 }
 
 .buttons a {
     display: inline-block;
-    margin: 15px 8px;
-    padding: 15px 35px;
-    background: #008c8c;
+    margin: 10px 7px;
+    padding: 15px 32px;
+    background: #e87525;
     color: white;
     text-decoration: none;
-    border-radius: 35px;
+    border-radius: 8px;
     font-weight: bold;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .buttons a:hover {
-    background: #7b1e3a;
+    background: #bd5315;
+    transform: translateY(-2px);
 }
 
-.teal-banner {
-    background: #008c8c;
+.buttons .secondary {
+    background: transparent;
+    color: #e87525;
+    border: 2px solid #e87525;
+}
+
+.buttons .secondary:hover {
+    background: #fff0e3;
+}
+
+/* Orange banner */
+
+.orange-banner {
+    background: #e87525;
     color: white;
     text-align: center;
-    padding: 50px 20px;
+    padding: 65px 20px;
 }
 
-.teal-banner h2 {
+.orange-banner h2 {
     color: white;
     font-size: 38px;
 }
 
-.teal-banner p {
+.orange-banner p {
     max-width: 700px;
     margin: auto;
     font-size: 20px;
+    line-height: 1.7;
 }
 
+/* Sections */
+
 section {
-    max-width: 1000px;
+    max-width: 1050px;
     margin: auto;
-    padding: 55px 20px;
+    padding: 65px 20px;
     text-align: center;
 }
 
 h2 {
-    color: #7b1e3a;
-    font-size: 34px;
+    color: #d76520;
+    font-size: 35px;
 }
+
+section > p {
+    max-width: 750px;
+    margin: 20px auto;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #665b52;
+}
+
+/* Feature cards */
 
 .cards {
     display: flex;
     justify-content: center;
     gap: 25px;
     flex-wrap: wrap;
-    margin-top: 35px;
+    margin-top: 40px;
 }
 
 .card {
     background: white;
-    width: 280px;
-    padding: 30px;
-    border-radius: 20px;
-    border-top: 6px solid #008c8c;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 290px;
+    padding: 32px;
+    border-radius: 12px;
+    border-top: 5px solid #e87525;
+    box-shadow: 0 5px 20px rgba(70, 40, 20, 0.07);
 }
 
 .card h3 {
-    color: #008c8c;
+    color: #d76520;
+    font-size: 22px;
 }
+
+.card p {
+    color: #665b52;
+    line-height: 1.7;
+}
+
+/* Open source feature */
 
 .feature {
-    background: #fafafa;
-    border-radius: 25px;
-    padding: 35px;
-    border-left: 8px solid #7b1e3a;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    background: #fff0e3;
+    border-radius: 15px;
+    padding: 45px 30px;
+    border-left: 7px solid #e87525;
 }
 
+.feature h2 {
+    color: #d76520;
+}
+
+.feature p {
+    max-width: 700px;
+    margin: 15px auto;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #514239;
+}
+
+/* Footer */
+
 footer {
-    background: #7b1e3a;
+    background: #29231f;
     color: white;
     text-align: center;
-    padding: 25px;
+    padding: 35px 20px;
+}
+
+footer p {
+    margin: 8px;
+    color: #ded3ca;
+}
+
+footer a {
+    color: #ff9b53;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 55px 20px;
+    }
+
+    header img {
+        width: 120px;
+        height: 120px;
+    }
+
+    h1 {
+        font-size: 45px;
+    }
+
+    .tagline {
+        font-size: 21px;
+    }
+
+    header p {
+        font-size: 17px;
+    }
+
+    h2 {
+        font-size: 29px;
+    }
+
+    .orange-banner h2 {
+        font-size: 31px;
+    }
+
+    .card {
+        width: 100%;
+    }
+
 }
 
 </style>
@@ -141,37 +255,39 @@ footer {
 
 <header>
 
-<img src="everycorner.png" alt="EveryCorner Logo">
+<img src="cloudbery.png" alt="Cloudbery Logo">
 
-<h1>EveryCorner</h1>
+<h1>Cloudbery</h1>
 
 <p class="tagline">
-Every community has a corner.
+Social media, with more to discover.
 </p>
 
 <p>
-A social network where groups become the profile.
-Create your Corner, invite your people, and grow together.
+Cloudbery is an open-source social platform where you can
+connect with people who share your interests, discover short
+videos, and become part of communities.
 </p>
 
 <div class="buttons">
 
-<a href="signup.html">Create Your Corner</a>
+<a href="signup.html">Join Cloudbery</a>
 
-<a href="signin.html">Sign In</a>
+<a href="signin.html" class="secondary">Sign In</a>
 
 </div>
 
 </header>
 
 
-<section class="teal-banner">
+<section class="orange-banner">
 
-<h2>Build Your Corner</h2>
+<h2>Find Your People.</h2>
 
 <p>
-Bring your community together, grow your followers,
-and create a place where everyone belongs.
+Discover new interests, meet people from around the world,
+and share the things you enjoy. There's always something
+new around the corner.
 </p>
 
 </section>
@@ -179,12 +295,13 @@ and create a place where everyone belongs.
 
 <section>
 
-<h2>What is EveryCorner?</h2>
+<h2>What is Cloudbery?</h2>
 
 <p>
-EveryCorner changes social media by focusing on communities instead
-of individual profiles. Your group is your identity. Friends, teams,
-clubs, and communities can build a Corner that everyone follows together.
+Cloudbery is a social platform designed to bring people together.
+Instead of just scrolling through posts, you can discover people
+with similar interests, watch short videos, share content,
+and participate in communities.
 </p>
 
 </section>
@@ -192,29 +309,45 @@ clubs, and communities can build a Corner that everyone follows together.
 
 <section>
 
-<h2>How EveryCorner Works</h2>
+<h2>What Can You Do?</h2>
 
 <div class="cards">
 
 <div class="card">
-<h3>Create a Corner</h3>
+
+<h3>Connect With People</h3>
+
 <p>
-Make a shared space for your friends, community, team, or organization.
+Find people who enjoy the same hobbies, interests,
+and topics as you. Make connections and discover
+new communities.
 </p>
+
 </div>
 
-<div class="card">
-<h3>Invite Members</h3>
-<p>
-Bring people together and let everyone help build the Corner.
-</p>
-</div>
 
 <div class="card">
-<h3>Grow Together</h3>
+
+<h3>Watch Short Videos</h3>
+
 <p>
-Your Corner gets followers as a group instead of individuals competing.
+Discover short videos, share your own content,
+and explore what other people are creating.
 </p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Join Communities</h3>
+
+<p>
+Find communities built around the things you enjoy.
+Share ideas, participate in discussions,
+and meet new people.
+</p>
+
 </div>
 
 </div>
@@ -226,12 +359,33 @@ Your Corner gets followers as a group instead of individuals competing.
 
 <div class="feature">
 
-<h2>A New Way To Connect</h2>
+<h2>Open Source Social Media</h2>
 
 <p>
-No popularity contests. No single person being the whole identity.
-EveryCorner is about communities, friendships, and shared experiences.
+Cloudbery is built around the idea that social media
+should be more open. An open-source platform gives
+people the opportunity to inspect, contribute to,
+and improve the software.
 </p>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Something New Is Growing.</h2>
+
+<p>
+Whether you're here to meet new people, discover interesting
+videos, or find communities that share your interests,
+there's a place for you on Cloudbery.
+</p>
+
+<div class="buttons">
+
+<a href="signup.html">Get Started</a>
 
 </div>
 
@@ -240,9 +394,11 @@ EveryCorner is about communities, friendships, and shared experiences.
 
 <footer>
 
-<p>
-© 2026 EveryCorner. All rights reserved.
-</p>
+<p><strong>Cloudbery</strong></p>
+
+<p>Open-source social media.</p>
+
+<p>© 2026 Cloudbery. All rights reserved.</p>
 
 </footer>
 
@@ -250,5 +406,4 @@ EveryCorner is about communities, friendships, and shared experiences.
 <script src="siteconfig.js"></script>
 
 </body>
-
 </html>
