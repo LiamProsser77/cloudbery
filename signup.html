@@ -2,216 +2,214 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Account - EveryCorner</title>
+<title>Sign Up - Cloudbery</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:white;
+* {
+    box-sizing: border-box;
 }
 
-
-header{
-    text-align:center;
-    padding:40px;
+body {
+    margin: 0;
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 700;
+    background: #fffaf4;
+    color: #29231f;
+    min-height: 100vh;
 }
 
-
-header img{
-    width:150px;
+header {
+    text-align: center;
+    padding: 45px 20px 25px;
 }
 
-
-h1{
-    color:#7b1e3a;
+header img {
+    width: 110px;
+    height: auto;
+    margin-bottom: 10px;
 }
 
-
-.box{
-
-    max-width:400px;
-    margin:auto;
-    background:#fafafa;
-    padding:35px;
-    border-radius:25px;
-    box-shadow:0 8px 20px rgba(0,0,0,.1);
-
+header h1 {
+    color: #e87525;
+    font-size: 36px;
+    margin: 5px 0;
 }
 
-
-h2{
-
-    color:#008c8c;
-    text-align:center;
-
+header p {
+    color: #75675d;
+    font-size: 14px;
+    margin-top: 12px;
 }
 
-
-input{
-
-    width:100%;
-    padding:15px;
-    margin:10px 0;
-    border-radius:10px;
-    border:1px solid #ddd;
-    box-sizing:border-box;
-
+.box {
+    width: calc(100% - 40px);
+    max-width: 430px;
+    margin: 10px auto 50px;
+    background: #ffffff;
+    padding: 38px;
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(83, 54, 30, 0.09);
+    border: 1px solid #f3e7da;
 }
 
-
-
-button{
-
-    width:100%;
-    padding:15px;
-    background:#008c8c;
-    color:white;
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-    font-weight:bold;
-
+h2 {
+    color: #29231f;
+    text-align: center;
+    font-size: 25px;
+    margin: 0 0 28px;
 }
 
-
-
-button:hover{
-
-    background:#7b1e3a;
-
+input {
+    width: 100%;
+    padding: 16px;
+    margin: 9px 0;
+    border-radius: 13px;
+    border: 1px solid #eaded2;
+    background: #fffaf4;
+    color: #29231f;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
 }
 
-
-
-a{
-
-    color:#008c8c;
-
+input:focus {
+    border-color: #e87525;
+    box-shadow: 0 0 0 3px rgba(232, 117, 37, 0.12);
 }
 
+input::placeholder {
+    color: #a99b90;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    margin-top: 15px;
+    background: #e87525;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+    background: #cf5f17;
+    transform: translateY(-2px);
+}
+
+.account-link {
+    text-align: center;
+    color: #75675d;
+    font-size: 12px;
+    margin-top: 25px;
+}
+
+a {
+    color: #e87525;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #a99b90;
+    font-size: 11px;
+}
+
+@media (max-width: 480px) {
+    header {
+        padding-top: 30px;
+    }
+
+    .box {
+        padding: 28px 23px;
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+}
 
 </style>
-
-
 </head>
-
 
 <body>
 
-
-
 <header>
 
-<img src="everycorner.png">
+    <img src="cloudbery-logo.png" alt="Cloudbery Logo">
 
-<h1>EveryCorner</h1>
+    <h1>Cloudbery</h1>
 
-<p>Create your Corner</p>
+    <p>Create your account and find your people.</p>
 
 </header>
 
-
-
-
-
 <div class="box">
 
+    <h2>Create Account</h2>
 
-<h2>Sign Up</h2>
+    <form onsubmit="createAccount(event)">
 
+        <input
+            id="username"
+            type="text"
+            placeholder="Choose Username"
+            required
+        >
 
+        <input
+            id="email"
+            type="email"
+            placeholder="Email"
+            required
+        >
 
-<form onsubmit="createAccount(event)">
+        <input
+            id="password"
+            type="password"
+            placeholder="Password"
+            required
+        >
 
+        <button type="submit">
+            Create Account
+        </button>
 
+    </form>
 
-<input
-
-id="username"
-
-type="text"
-
-placeholder="Choose Username"
-
-required>
-
-
-
-
-<input
-
-id="email"
-
-type="email"
-
-placeholder="Email"
-
-required>
-
-
-
-
-
-<input
-
-id="password"
-
-type="password"
-
-placeholder="Password"
-
-required>
-
-
-
-
-
-<button>
-
-Create Account
-
-</button>
-
-
-
-</form>
-
-
-
-
-
-<p>
-
-Already have an account?
-
-<a href="signin.html">
-
-Sign In
-
-</a>
-
-</p>
-
-
+    <p class="account-link">
+        Already have an account?
+        <a href="signin.html">Sign In</a>
+    </p>
 
 </div>
 
-
-
-
+<footer>
+    Open-source social media.
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 <script src="app.js"></script>
 
-
 </body>
-
 </html>
