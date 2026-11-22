@@ -3,3 +3,6 @@
 # Cloudbery
 
 <p>Cloudbery is a social media platform, that is private, built around short videos, and connecting with people that might be your future friend!</p>
+
+
+### We are updating our site and Readme, more will come soon!
