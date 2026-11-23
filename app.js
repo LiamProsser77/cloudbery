@@ -57,7 +57,7 @@ async function createAccount(event) {
         return;
     }
 
-    window.location.href = "interests.html";
+    window.location.href = "feed.html";
 }
 
 async function signIn(event) {
