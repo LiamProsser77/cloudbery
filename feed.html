@@ -190,28 +190,57 @@ button:hover {
     padding: 17px;
 }
 
-.video-info h3 {
-    font-size: 15px;
-    margin: 0 0 8px;
-    overflow-wrap: anywhere;
-}
+/* Video title and like button */
 
-.video-info p {
-    color: #8c7b6e;
-    font-size: 12px;
-    line-height: 1.6;
-    margin: 0 0 12px;
-}
-
-.video-actions {
+.video-title-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
 }
 
-.video-actions button {
-    padding: 9px 15px;
+.video-title-row h3 {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.like-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex-shrink: 0;
+    padding: 5px 8px;
+    border-radius: 20px;
+    background: #fff4e9;
+    color: #75675d;
+    font-size: 11px;
+}
+
+.like-button:hover {
+    background: #ffe6d1;
+}
+
+.like-button.liked {
+    background: #ffe6d1;
+    color: #e87525;
+}
+
+.like-button:disabled {
+    cursor: default;
+    opacity: 0.85;
+}
+
+.like-logo {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.like-count {
     font-size: 11px;
 }
 
@@ -219,6 +248,7 @@ button:hover {
     color: #e87525;
     font-size: 11px;
     font-weight: 700;
+    margin: 9px 0 0;
 }
 
 #emptyFeed {
