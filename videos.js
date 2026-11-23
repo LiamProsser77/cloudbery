@@ -72,9 +72,7 @@ async function uploadVideo(event) {
         return;
     }
 
-    const uploadButton = document.querySelector(
-        'button[type="submit"]'
-    );
+    const uploadButton = document.querySelector('button[type="submit"]');
 
     if (uploadButton) {
         uploadButton.disabled = true;
@@ -89,8 +87,6 @@ async function uploadVideo(event) {
     const filePath = user.id + "/" + crypto.randomUUID() + "." + extension;
 
     try {
-        // Upload file to Supabase Storage
-
         const { error: uploadError } = await supabaseClient
             .storage
             .from("videos")
@@ -99,15 +95,11 @@ async function uploadVideo(event) {
                 upsert: false
             });
 
-        if (uploadError) {
-            throw uploadError;
-        }
+        if (uploadError) throw uploadError;
 
         if (status) {
             status.textContent = "Saving video information...";
         }
-
-        // Save video information to database
 
         const { error: databaseError } = await supabaseClient
             .from("videos")
@@ -118,8 +110,6 @@ async function uploadVideo(event) {
             });
 
         if (databaseError) {
-            // Remove uploaded file if database save fails
-
             await supabaseClient
                 .storage
                 .from("videos")
@@ -129,7 +119,6 @@ async function uploadVideo(event) {
         }
 
         alert("Your video was uploaded successfully!");
-
         window.location.href = "feed.html";
 
     } catch (error) {
@@ -176,7 +165,7 @@ async function loadVideos() {
         return;
     }
 
-    // Load creator profiles
+    // LOAD CREATOR PROFILES
 
     const userIds = [...new Set(videos.map(video => video.user_id))];
 
@@ -191,7 +180,7 @@ async function loadVideos() {
         profileMap[profile.id] = profile.username;
     });
 
-    // Load likes
+    // LOAD LIKES
 
     const videoIds = videos.map(video => video.id);
 
@@ -225,7 +214,7 @@ async function loadVideos() {
         };
     });
 
-    // Search titles and creators
+    // SEARCH TITLES AND CREATORS
 
     if (search) {
         results = results.filter(video =>
@@ -234,7 +223,7 @@ async function loadVideos() {
         );
     }
 
-    // Sorting
+    // SORT VIDEOS
 
     const sort = document.getElementById("feedSort")?.value || "random";
 
@@ -267,7 +256,7 @@ async function loadVideos() {
         threshold: 0.65
     });
 
-    // Create video cards
+    // CREATE VIDEO CARDS
 
     results.forEach(video => {
         const { data } = supabaseClient
@@ -298,6 +287,8 @@ async function loadVideos() {
 
         const actions = document.createElement("div");
         actions.className = "video-actions";
+
+        // LIKE BUTTON
 
         const likeButton = document.createElement("button");
         likeButton.className = "like-button";
@@ -330,6 +321,22 @@ async function loadVideos() {
         });
 
         actions.append(likeButton);
+
+        // DELETE BUTTON - ONLY FOR VIDEO OWNER
+
+        if (currentUser && currentUser.id === video.user_id) {
+            const deleteButton = document.createElement("button");
+
+            deleteButton.className = "delete-video-button";
+            deleteButton.type = "button";
+            deleteButton.textContent = "Delete";
+
+            deleteButton.addEventListener("click", () => {
+                deleteVideo(video.id, video.video_path, deleteButton);
+            });
+
+            actions.append(deleteButton);
+        }
 
         info.append(title, creator, actions);
         card.append(player, info);
@@ -390,6 +397,61 @@ async function toggleLike(videoId, button) {
     }
 
     await loadVideos();
+}
+
+
+// DELETE VIDEO
+
+async function deleteVideo(videoId, videoPath, button) {
+    if (!currentUser) {
+        alert("Please sign in first.");
+        return;
+    }
+
+    const confirmed = confirm(
+        "Are you sure you want to delete this video? This cannot be undone."
+    );
+
+    if (!confirmed) return;
+
+    button.disabled = true;
+    button.textContent = "Deleting...";
+
+    try {
+        // DELETE DATABASE RECORD FIRST
+
+        const { error: databaseError } = await supabaseClient
+            .from("videos")
+            .delete()
+            .eq("id", videoId)
+            .eq("user_id", currentUser.id);
+
+        if (databaseError) {
+            throw databaseError;
+        }
+
+        // DELETE VIDEO FILE
+
+        const { error: storageError } = await supabaseClient
+            .storage
+            .from("videos")
+            .remove([videoPath]);
+
+        if (storageError) {
+            alert("Video record deleted, but the file could not be removed: " + storageError.message);
+        } else {
+            alert("Video deleted successfully!");
+        }
+
+        await loadVideos();
+
+    } catch (error) {
+        console.error("Video deletion error:", error);
+        alert("Could not delete video: " + error.message);
+
+        button.disabled = false;
+        button.textContent = "Delete";
+    }
 }
 
 
