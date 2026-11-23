@@ -1,467 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - Cloudbery</title>
 
-<title>EveryCorner Profile</title>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-
-body{
-
-margin:0;
-font-family:Arial,sans-serif;
-background:white;
-color:#222;
-
+body {
+    margin: 0;
+    background: #fffaf4;
+    color: #29231f;
+    font-family: 'Comfortaa', sans-serif;
 }
 
-
-header{
-
-text-align:center;
-padding:30px;
-
+header {
+    height: 75px;
+    background: white;
+    border-bottom: 1px solid #f0e5da;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7%;
 }
 
-
-header img{
-
-width:100px;
-
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #e87525;
+    font-size: 23px;
+    font-weight: 700;
 }
 
-
-h1,h2{
-
-color:#7b1e3a;
-
+.brand img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
 }
 
-
-
-.banner{
-
-height:280px;
-background:#008c8c;
-background-size:cover;
-background-position:center;
-
+nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
 }
 
-
-
-.profile{
-
-max-width:850px;
-margin:-70px auto 30px;
-background:white;
-padding:35px;
-text-align:center;
-border-radius:25px;
-box-shadow:0 8px 20px rgba(0,0,0,.15);
-
+nav a {
+    color: #75675d;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
 }
 
-
-
-
-.profile-picture{
-
-width:160px;
-height:160px;
-border-radius:50%;
-object-fit:cover;
-border:6px solid white;
-
+nav a:hover {
+    color: #e87525;
 }
 
-
-
-
-
-button{
-
-background:#008c8c;
-color:white;
-border:none;
-padding:13px 30px;
-border-radius:30px;
-cursor:pointer;
-font-weight:bold;
-margin:5px;
-
+.banner {
+    height: 290px;
+    background: linear-gradient(120deg, #e87525, #f5b16e);
+    background-size: cover;
+    background-position: center;
 }
 
-
-
-button:hover{
-
-background:#7b1e3a;
-
+.profile {
+    max-width: 900px;
+    margin: -75px auto 25px;
+    position: relative;
+    padding: 0 30px 30px;
+    background: white;
+    border: 1px solid #f1e5d9;
+    border-radius: 24px;
+    box-shadow: 0 8px 30px rgba(83, 54, 30, 0.07);
+    text-align: center;
 }
 
-
-
-
-.box{
-
-max-width:850px;
-margin:25px auto;
-padding:30px;
-background:#fafafa;
-border-radius:20px;
-
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    margin-top: -75px;
+    border: 6px solid white;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #fffaf4;
 }
 
-
-
-
-input,textarea{
-
-width:100%;
-padding:14px;
-margin:10px 0;
-border-radius:10px;
-border:1px solid #ddd;
-
+.profile h1 {
+    margin: 12px 0;
+    font-size: 28px;
 }
 
-
-
-textarea{
-
-height:120px;
-
+#bio {
+    color: #75675d;
+    font-size: 14px;
+    line-height: 1.7;
 }
 
-
-
-
-.post{
-
-background:white;
-padding:15px;
-margin-top:15px;
-border-left:5px solid #008c8c;
-border-radius:10px;
-
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    margin: 25px 0;
+    color: #75675d;
+    font-size: 13px;
 }
 
-
-
-footer{
-
-background:#7b1e3a;
-color:white;
-text-align:center;
-padding:25px;
-margin-top:50px;
-
+.stats strong {
+    color: #e87525;
+    font-size: 19px;
+    display: block;
+    margin-bottom: 5px;
 }
 
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 13px 23px;
+    background: #e87525;
+    color: white;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
+button:hover {
+    background: #cf5f17;
+    transform: translateY(-1px);
+}
 
+button.secondary {
+    background: #fff1e5;
+    color: #d76520;
+}
+
+button.secondary:hover {
+    background: #ffe2ca;
+}
+
+.container {
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 30px;
+    background: white;
+    border: 1px solid #f1e5d9;
+    border-radius: 22px;
+}
+
+.container h2 {
+    margin: 0 0 22px;
+    font-size: 21px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 9px 0;
+    border: 1px solid #eaded2;
+    border-radius: 13px;
+    background: #fffaf4;
+    color: #29231f;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+}
+
+input:focus, textarea:focus {
+    border-color: #e87525;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+#searchResults {
+    margin-top: 12px;
+}
+
+#posts {
+    margin-top: 20px;
+}
+
+.post {
+    background: #fffaf4;
+    border: 1px solid #f1e5d9;
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 15px;
+    overflow-wrap: anywhere;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #a99b90;
+    font-size: 11px;
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 0 18px;
+    }
+
+    nav {
+        gap: 12px;
+    }
+
+    nav a {
+        font-size: 11px;
+    }
+
+    .brand {
+        font-size: 18px;
+    }
+
+    .banner {
+        height: 210px;
+    }
+
+    .profile {
+        margin: -55px 12px 20px;
+        padding: 0 18px 25px;
+    }
+
+    .profile-picture {
+        width: 115px;
+        height: 115px;
+        margin-top: -58px;
+    }
+
+    .container {
+        margin: 15px 12px;
+        padding: 22px;
+    }
+}
 </style>
-
 </head>
-
 
 <body>
 
-
 <header>
+    <div class="brand">
+        <img src="cloudbery-logo.png" alt="Cloudbery">
+        Cloudbery
+    </div>
 
-<img src="everycorner.png">
-
-<h1>EveryCorner</h1>
-
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="feed.html">Feed</a>
+        <a href="interests.html">Interests</a>
+    </nav>
 </header>
 
+<div id="banner" class="banner"></div>
 
+<section class="profile">
 
-<div 
-id="banner"
-class="banner">
-</div>
+    <img
+        id="profilePic"
+        class="profile-picture"
+        src="cloudbery-logo.png"
+        alt="Profile picture"
+    >
 
+    <h1 id="cornerName">Loading profile...</h1>
 
+    <p id="bio">No bio yet</p>
 
+    <div class="stats">
+        <div>
+            <strong id="followers">0</strong>
+            Followers
+        </div>
 
-<div class="box">
+        <div>
+            <strong id="friends">0</strong>
+            Friends
+        </div>
+    </div>
 
-<h2>Find Corners</h2>
+    <button class="secondary" onclick="logout()">Log Out</button>
 
+</section>
 
-<input
+<section class="container">
+    <h2>Find People</h2>
 
-id="searchUsers"
+    <input
+        id="searchUsers"
+        placeholder="Search Cloudbery users..."
+        oninput="searchUsers()"
+    >
 
-placeholder="Search users..."
+    <div id="searchResults"></div>
+</section>
 
-oninput="searchUsers()">
+<section class="container" id="settings">
+    <h2>Profile Settings</h2>
 
+    <p>About you</p>
 
+    <textarea
+        id="bioInput"
+        placeholder="Tell people a little about yourself..."
+    ></textarea>
 
-<div id="searchResults"></div>
+    <button onclick="saveBio()">Save Bio</button>
 
+    <p>Profile picture</p>
 
-</div>
+    <input
+        type="file"
+        accept="image/*"
+        onchange="uploadProfile(event)"
+    >
 
+    <p>Profile banner</p>
 
+    <input
+        type="file"
+        accept="image/*"
+        onchange="uploadBanner(event)"
+    >
 
+    <p>Change username</p>
 
-<div class="profile">
+    <input
+        id="nameInput"
+        placeholder="New username"
+    >
 
+    <button onclick="saveProfile()">Save Username</button>
+</section>
 
-<img
+<section class="container" id="postBox">
+    <h2>Create a Post</h2>
 
-id="profilePic"
+    <textarea
+        id="postText"
+        placeholder="What's happening?"
+    ></textarea>
 
-class="profile-picture"
+    <button onclick="createPost()">Publish Post</button>
+</section>
 
-src="everycorner.png">
-
-
-<h2 id="cornerName">
-
-Loading...
-
-</h2>
-
-
-<p id="bio">
-
-No bio yet
-
-</p>
-
-
-
-<p id="followers">
-
-0 Followers
-
-</p>
-
-
-<p id="friends">
-
-0 Friends
-
-</p>
-
-
-<button
-
-onclick="logout()">
-
-Logout
-
-</button>
-
-
-</div>
-
-
-<div
-
-class="box"
-
-id="settings">
-
-
-<h2>
-
-Corner Settings
-
-</h2>
-
-
-<p>
-Edit Bio
-</p>
-
-
-<textarea
-
-id="bioInput"
-
-placeholder="Write your bio...">
-
-</textarea>
-
-
-<button onclick="saveBio()">
-
-Save Bio
-
-</button>
-
-
-
-<p>
-
-Upload Profile Picture
-
-</p>
-
-
-<input
-
-type="file"
-
-accept="image/*"
-
-onchange="uploadProfile(event)">
-
-
-
-
-
-<p>
-
-Upload Banner
-
-</p>
-
-
-
-<input
-
-type="file"
-
-accept="image/*"
-
-onchange="uploadBanner(event)">
-
-
-
-
-
-<input
-
-id="nameInput"
-
-placeholder="Change Corner Name">
-
-
-
-
-
-<button
-
-onclick="saveProfile()">
-
-Save Corner Name
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-
-
-<div
-
-class="box"
-
-id="postBox">
-
-
-<h2>
-
-Create Post
-
-</h2>
-
-
-
-
-<textarea
-
-id="postText"
-
-placeholder="Write a post...">
-
-</textarea>
-
-
-
-
-
-<button
-
-onclick="createPost()">
-
-Post
-
-</button>
-
-
-
-
-
-<div
-
-id="posts">
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
+<section class="container">
+    <h2>Posts</h2>
+    <div id="posts">
+        Loading posts...
+    </div>
+</section>
 
 <footer>
-
-© 2026 EveryCorner
-
+    © 2026 Cloudbery · Open-source social media
 </footer>
 
-
-
-
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="supabase.js"></script>
-
 <script src="app.js"></script>
-
 <script src="friend.js"></script>
-
 <script src="friendcount.js"></script>
-
 <script src="posts.js"></script>
-
 <script src="profileview.js"></script>
-
 <script src="bio.js"></script>
-
 <script src="siteconfig.js"></script>
 
-
 </body>
-
 </html>
