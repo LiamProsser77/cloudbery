@@ -60,6 +60,7 @@ async function createAccount(event) {
     window.location.href = "feed.html";
 }
 
+
 async function signIn(event) {
     event.preventDefault();
 
@@ -81,19 +82,14 @@ async function signIn(event) {
         return;
     }
 
-    const { data: profile, error: profileError } = await supabaseClient
-        .from("profiles")
-        .select("username")
-        .eq("id", data.user.id)
-        .single();
-
-    if (profileError || !profile) {
-        alert("Your account was found, but your profile could not be loaded.");
+    if (!data.user) {
+        alert("Could not sign in. Please try again.");
         return;
     }
 
-    window.location.href = "interests.html";
+    window.location.href = "feed.html";
 }
+
 
 async function getCurrentUser() {
     const { data, error } = await supabaseClient.auth.getUser();
@@ -105,6 +101,7 @@ async function getCurrentUser() {
 
     return data.user;
 }
+
 
 async function loadProfile() {
     const params = new URLSearchParams(window.location.search);
@@ -129,7 +126,9 @@ async function loadProfile() {
         return;
     }
 
-    if (cornerName) cornerName.textContent = data.username;
+    if (cornerName) {
+        cornerName.textContent = data.username;
+    }
 
     const followers = document.getElementById("followers");
     const profilePic = document.getElementById("profilePic");
@@ -147,6 +146,7 @@ async function loadProfile() {
         banner.style.backgroundImage = `url('${data.banner}')`;
     }
 }
+
 
 async function uploadProfile(event) {
     const file = event.target.files[0];
@@ -191,6 +191,7 @@ async function uploadProfile(event) {
     location.reload();
 }
 
+
 async function uploadBanner(event) {
     const file = event.target.files[0];
 
@@ -234,6 +235,7 @@ async function uploadBanner(event) {
     location.reload();
 }
 
+
 async function saveProfile() {
     const user = await getCurrentUser();
 
@@ -260,8 +262,10 @@ async function saveProfile() {
     }
 
     alert("Profile updated!");
+
     window.location.href = "profile.html?user=" + encodeURIComponent(username);
 }
+
 
 async function logout() {
     const { error } = await supabaseClient.auth.signOut();
@@ -273,6 +277,7 @@ async function logout() {
 
     window.location.href = "signin.html";
 }
+
 
 window.addEventListener("load", function() {
     if (document.getElementById("cornerName")) {
