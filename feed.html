@@ -196,13 +196,14 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
 }
 
 .video-title-row h3 {
     flex: 1;
     min-width: 0;
-    font-size: 14px;
+    font-size: 15px;
+    line-height: 1.5;
     margin: 0;
     overflow-wrap: anywhere;
 }
@@ -211,13 +212,14 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 7px;
     flex-shrink: 0;
-    padding: 5px 8px;
-    border-radius: 20px;
+    padding: 8px 12px;
+    min-height: 36px;
+    border-radius: 22px;
     background: #fff4e9;
     color: #75675d;
-    font-size: 11px;
+    font-size: 13px;
 }
 
 .like-button:hover {
@@ -235,20 +237,21 @@ button:hover {
 }
 
 .like-logo {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
 }
 
 .like-count {
-    font-size: 11px;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 .creator {
     color: #e87525;
     font-size: 11px;
     font-weight: 700;
-    margin: 9px 0 0;
+    margin: 10px 0 0;
 }
 
 #emptyFeed {
@@ -310,6 +313,10 @@ footer {
     .search-box button {
         padding: 12px 15px;
     }
+
+    .video-info {
+        padding: 15px;
+    }
 }
 </style>
 </head>
@@ -341,7 +348,7 @@ footer {
         <input
             type="search"
             id="videoSearch"
-            placeholder="Search video titles..."
+            placeholder="Search video titles or creators..."
             onkeydown="if(event.key === 'Enter') searchVideos()"
         >
         <button onclick="searchVideos()">Search</button>
