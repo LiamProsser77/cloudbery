@@ -1,19 +1,159 @@
 let currentUser = null;
 let videoObserver = null;
 
+
+// GET CURRENT USER
+
 async function getCurrentUser() {
     const { data, error } = await supabaseClient.auth.getUser();
 
     if (error) {
+        console.error(error);
         currentUser = null;
-        return;
+        return null;
     }
 
     currentUser = data.user;
+    return currentUser;
 }
+
+
+// UPLOAD VIDEO
+
+async function uploadVideo(event) {
+    if (event) event.preventDefault();
+
+    const user = await getCurrentUser();
+
+    if (!user) {
+        alert("Please sign in before uploading videos.");
+        window.location.href = "signin.html";
+        return;
+    }
+
+    const titleInput = document.getElementById("videoTitle");
+    const fileInput = document.getElementById("videoFile");
+    const status = document.getElementById("uploadStatus");
+
+    if (!titleInput || !fileInput) {
+        alert("Upload form could not be found. Check the input IDs in upload.html.");
+        return;
+    }
+
+    const title = titleInput.value.trim();
+    const file = fileInput.files[0];
+
+    if (!title) {
+        alert("Please enter a video title.");
+        return;
+    }
+
+    if (!file) {
+        alert("Please select a video file.");
+        return;
+    }
+
+    const allowedTypes = [
+        "video/mp4",
+        "video/webm",
+        "video/ogg",
+        "video/quicktime"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please upload an MP4, WebM, OGG, or MOV video.");
+        return;
+    }
+
+    const maxSize = 100 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+        alert("Your video must be smaller than 100 MB.");
+        return;
+    }
+
+    const uploadButton = document.querySelector(
+        'button[type="submit"]'
+    );
+
+    if (uploadButton) {
+        uploadButton.disabled = true;
+        uploadButton.textContent = "Uploading...";
+    }
+
+    if (status) {
+        status.textContent = "Uploading your video...";
+    }
+
+    const extension = file.name.split(".").pop().toLowerCase();
+    const filePath = user.id + "/" + crypto.randomUUID() + "." + extension;
+
+    try {
+        // Upload file to Supabase Storage
+
+        const { error: uploadError } = await supabaseClient
+            .storage
+            .from("videos")
+            .upload(filePath, file, {
+                contentType: file.type,
+                upsert: false
+            });
+
+        if (uploadError) {
+            throw uploadError;
+        }
+
+        if (status) {
+            status.textContent = "Saving video information...";
+        }
+
+        // Save video information to database
+
+        const { error: databaseError } = await supabaseClient
+            .from("videos")
+            .insert({
+                user_id: user.id,
+                title: title,
+                video_path: filePath
+            });
+
+        if (databaseError) {
+            // Remove uploaded file if database save fails
+
+            await supabaseClient
+                .storage
+                .from("videos")
+                .remove([filePath]);
+
+            throw databaseError;
+        }
+
+        alert("Your video was uploaded successfully!");
+
+        window.location.href = "feed.html";
+
+    } catch (error) {
+        console.error("Video upload error:", error);
+
+        if (status) {
+            status.textContent = "Upload failed: " + error.message;
+        }
+
+        alert("Video upload failed: " + error.message);
+
+        if (uploadButton) {
+            uploadButton.disabled = false;
+            uploadButton.textContent = "Upload Video";
+        }
+    }
+}
+
+
+// LOAD VIDEOS
 
 async function loadVideos() {
     const feed = document.getElementById("videoFeed");
+
     if (!feed) return;
 
     feed.innerHTML = '<div id="emptyFeed">Loading videos...</div>';
@@ -37,6 +177,7 @@ async function loadVideos() {
     }
 
     // Load creator profiles
+
     const userIds = [...new Set(videos.map(video => video.user_id))];
 
     const { data: profiles } = await supabaseClient
@@ -51,6 +192,7 @@ async function loadVideos() {
     });
 
     // Load likes
+
     const videoIds = videos.map(video => video.id);
 
     const { data: likes, error: likesError } = await supabaseClient
@@ -83,13 +225,16 @@ async function loadVideos() {
         };
     });
 
-    // Search video titles and creator names
+    // Search titles and creators
+
     if (search) {
         results = results.filter(video =>
             video.title.toLowerCase().includes(search) ||
             video.creator.toLowerCase().includes(search)
         );
     }
+
+    // Sorting
 
     const sort = document.getElementById("feedSort")?.value || "random";
 
@@ -121,6 +266,8 @@ async function loadVideos() {
     }, {
         threshold: 0.65
     });
+
+    // Create video cards
 
     results.forEach(video => {
         const { data } = supabaseClient
@@ -172,11 +319,11 @@ async function loadVideos() {
             likeButton.classList.add("liked");
         }
 
-        if (!currentUser) {
-            likeButton.title = "Sign in to like videos";
-        } else {
-            likeButton.title = video.liked ? "Unlike video" : "Like video";
-        }
+        likeButton.title = !currentUser
+            ? "Sign in to like videos"
+            : video.liked
+                ? "Unlike video"
+                : "Like video";
 
         likeButton.addEventListener("click", () => {
             toggleLike(video.id, likeButton);
@@ -191,6 +338,9 @@ async function loadVideos() {
         videoObserver.observe(player);
     });
 }
+
+
+// LIKE AND UNLIKE VIDEOS
 
 async function toggleLike(videoId, button) {
     if (!currentUser) {
@@ -221,6 +371,8 @@ async function toggleLike(videoId, button) {
 
         if (error) {
             alert("Could not remove like: " + error.message);
+            button.disabled = false;
+            return;
         }
     } else {
         const { error } = await supabaseClient
@@ -232,14 +384,22 @@ async function toggleLike(videoId, button) {
 
         if (error) {
             alert("Could not like video: " + error.message);
+            button.disabled = false;
+            return;
         }
     }
 
     await loadVideos();
 }
 
+
+// SEARCH VIDEOS
+
 function searchVideos() {
     loadVideos();
 }
+
+
+// LOAD FEED WHEN PAGE OPENS
 
 window.addEventListener("load", loadVideos);
