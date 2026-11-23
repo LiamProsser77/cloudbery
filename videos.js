@@ -1,91 +1,30 @@
-async function uploadVideo() {
-    const titleInput = document.getElementById("videoTitle");
-    const fileInput = document.getElementById("videoFile");
-    const status = document.getElementById("uploadStatus");
+let currentUser = null;
+let videoObserver = null;
 
-    const title = titleInput.value.trim();
-    const file = fileInput.files[0];
+async function getCurrentUser() {
+    const { data, error } = await supabaseClient.auth.getUser();
 
-    if (!title || !file) {
-        status.textContent = "Enter a title and choose a video.";
+    if (error) {
+        currentUser = null;
         return;
     }
 
-    if (!file.type.startsWith("video/")) {
-        status.textContent = "Please select a video file.";
-        return;
-    }
-
-    status.textContent = "Uploading video...";
-
-    const { data: userData, error: userError } =
-        await supabaseClient.auth.getUser();
-
-    if (userError || !userData.user) {
-        status.textContent = "Please sign in before uploading.";
-        return;
-    }
-
-    const user = userData.user;
-    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const filePath = user.id + "/" + Date.now() + "-" + safeName;
-
-    const { error: uploadError } = await supabaseClient
-        .storage
-        .from("videos")
-        .upload(filePath, file);
-
-    if (uploadError) {
-        status.textContent = "Upload failed: " + uploadError.message;
-        return;
-    }
-
-    const { error: databaseError } = await supabaseClient
-        .from("videos")
-        .insert({
-            user_id: user.id,
-            title: title,
-            video_path: filePath
-        });
-
-    if (databaseError) {
-        await supabaseClient.storage
-            .from("videos")
-            .remove([filePath]);
-
-        status.textContent = "Could not save video: " + databaseError.message;
-        return;
-    }
-
-    titleInput.value = "";
-    fileInput.value = "";
-
-    status.textContent = "Video uploaded successfully!";
-
-    loadVideos();
+    currentUser = data.user;
 }
 
 async function loadVideos() {
     const feed = document.getElementById("videoFeed");
-
     if (!feed) return;
 
-    feed.textContent = "Loading videos...";
+    feed.innerHTML = '<div id="emptyFeed">Loading videos...</div>';
 
-    const search = document.getElementById("videoSearch")?.value.trim();
-    const sort = document.getElementById("feedSort")?.value || "random";
+    await getCurrentUser();
 
-    let query = supabaseClient
+    const { data: videos, error } = await supabaseClient
         .from("videos")
-        .select("*");
-
-    if (search) {
-        query = query.ilike("title", "%" + search + "%");
-    }
-
-    query = query.order("created_at", { ascending: false }).limit(50);
-
-    const { data: videos, error } = await query;
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(100);
 
     if (error) {
         feed.textContent = "Could not load videos: " + error.message;
@@ -93,17 +32,97 @@ async function loadVideos() {
     }
 
     if (!videos || videos.length === 0) {
-        feed.textContent = "No videos yet. Be the first to upload!";
+        feed.innerHTML = '<div id="emptyFeed">No videos yet. Be the first to upload!</div>';
         return;
     }
 
+    // Load creator profiles
+    const userIds = [...new Set(videos.map(video => video.user_id))];
+
+    const { data: profiles } = await supabaseClient
+        .from("profiles")
+        .select("id, username")
+        .in("id", userIds);
+
+    const profileMap = {};
+
+    (profiles || []).forEach(profile => {
+        profileMap[profile.id] = profile.username;
+    });
+
+    // Load likes
+    const videoIds = videos.map(video => video.id);
+
+    const { data: likes, error: likesError } = await supabaseClient
+        .from("video_likes")
+        .select("video_id, user_id")
+        .in("video_id", videoIds);
+
+    if (likesError) {
+        feed.textContent = "Could not load likes: " + likesError.message;
+        return;
+    }
+
+    const search = document
+        .getElementById("videoSearch")
+        ?.value.trim()
+        .toLowerCase() || "";
+
+    let results = videos.map(video => {
+        const videoLikes = (likes || []).filter(
+            like => like.video_id === video.id
+        );
+
+        return {
+            ...video,
+            creator: profileMap[video.user_id] || "Cloudbery user",
+            likeCount: videoLikes.length,
+            liked: currentUser
+                ? videoLikes.some(like => like.user_id === currentUser.id)
+                : false
+        };
+    });
+
+    // Search video titles and creator names
+    if (search) {
+        results = results.filter(video =>
+            video.title.toLowerCase().includes(search) ||
+            video.creator.toLowerCase().includes(search)
+        );
+    }
+
+    const sort = document.getElementById("feedSort")?.value || "random";
+
     if (sort === "random") {
-        videos.sort(() => Math.random() - 0.5);
+        results.sort(() => Math.random() - 0.5);
     }
 
     feed.replaceChildren();
 
-    videos.forEach(video => {
+    if (results.length === 0) {
+        feed.innerHTML = '<div id="emptyFeed">No matching videos found.</div>';
+        return;
+    }
+
+    if (videoObserver) {
+        videoObserver.disconnect();
+    }
+
+    videoObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            const player = entry.target;
+
+            if (entry.isIntersecting) {
+                player.play().catch(() => {});
+            } else {
+                player.pause();
+            }
+        });
+    }, {
+        threshold: 0.65
+    });
+
+    results.forEach(video => {
         const { data } = supabaseClient
             .storage
             .from("videos")
@@ -112,21 +131,111 @@ async function loadVideos() {
         const card = document.createElement("article");
         card.className = "video-card";
 
-        const heading = document.createElement("h3");
-        heading.textContent = video.title;
-
         const player = document.createElement("video");
         player.src = data.publicUrl;
-        player.controls = true;
         player.playsInline = true;
+        player.muted = true;
+        player.loop = true;
+        player.autoplay = true;
         player.preload = "metadata";
 
-        const date = document.createElement("p");
-        date.textContent = new Date(video.created_at).toLocaleDateString();
+        const info = document.createElement("div");
+        info.className = "video-info";
 
-        card.append(heading, player, date);
+        const title = document.createElement("h3");
+        title.textContent = video.title;
+
+        const creator = document.createElement("p");
+        creator.className = "creator";
+        creator.textContent = "@" + video.creator;
+
+        const actions = document.createElement("div");
+        actions.className = "video-actions";
+
+        const likeButton = document.createElement("button");
+        likeButton.className = "like-button";
+        likeButton.type = "button";
+        likeButton.disabled = !currentUser;
+
+        const logo = document.createElement("img");
+        logo.src = "cloudbery-logo.png";
+        logo.alt = "";
+        logo.className = "like-logo";
+
+        const count = document.createElement("span");
+        count.className = "like-count";
+        count.textContent = video.likeCount;
+
+        likeButton.append(logo, count);
+
+        if (video.liked) {
+            likeButton.classList.add("liked");
+        }
+
+        if (!currentUser) {
+            likeButton.title = "Sign in to like videos";
+        } else {
+            likeButton.title = video.liked ? "Unlike video" : "Like video";
+        }
+
+        likeButton.addEventListener("click", () => {
+            toggleLike(video.id, likeButton);
+        });
+
+        actions.append(likeButton);
+
+        info.append(title, creator, actions);
+        card.append(player, info);
         feed.appendChild(card);
+
+        videoObserver.observe(player);
     });
+}
+
+async function toggleLike(videoId, button) {
+    if (!currentUser) {
+        window.location.href = "signin.html";
+        return;
+    }
+
+    button.disabled = true;
+
+    const { data: existingLike, error: findError } = await supabaseClient
+        .from("video_likes")
+        .select("id")
+        .eq("video_id", videoId)
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+
+    if (findError) {
+        alert("Could not check like: " + findError.message);
+        button.disabled = false;
+        return;
+    }
+
+    if (existingLike) {
+        const { error } = await supabaseClient
+            .from("video_likes")
+            .delete()
+            .eq("id", existingLike.id);
+
+        if (error) {
+            alert("Could not remove like: " + error.message);
+        }
+    } else {
+        const { error } = await supabaseClient
+            .from("video_likes")
+            .insert({
+                video_id: videoId,
+                user_id: currentUser.id
+            });
+
+        if (error) {
+            alert("Could not like video: " + error.message);
+        }
+    }
+
+    await loadVideos();
 }
 
 function searchVideos() {
