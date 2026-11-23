@@ -6,14 +6,13 @@
 
 <title>Cloudbery</title>
 
-<meta name="description" content="Cloudbery is an open-source social platform where you connect with people who share your interests, discover short videos, and build communities.">
+<meta name="description" content="Cloudbery is an open-source social platform where you connect with people, discover short videos, and build communities.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -30,14 +29,70 @@ body {
     color: #29231f;
 }
 
-/* Header */
+/* Navigation */
 
-header {
+.top-nav {
+    min-height: 70px;
+    background: white;
+    border-bottom: 1px solid #f1e5d9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 5%;
+    gap: 20px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #e87525;
+    font-size: 21px;
+    text-decoration: none;
+}
+
+.nav-brand img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #75675d;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.nav-links a:hover {
+    color: #e87525;
+}
+
+.nav-links .upload-link {
+    background: #e87525;
+    color: white;
+    padding: 11px 17px;
+    border-radius: 25px;
+}
+
+.nav-links .upload-link:hover {
+    background: #cf5f17;
+    color: white;
+}
+
+/* Hero */
+
+.hero {
     text-align: center;
     padding: 75px 20px 85px;
 }
 
-header img {
+.hero-logo {
     width: 150px;
     height: 150px;
     object-fit: contain;
@@ -57,7 +112,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-header p {
+.hero p {
     max-width: 680px;
     margin: 15px auto;
     font-size: 17px;
@@ -165,13 +220,65 @@ section > p {
 .card h3 {
     color: #d76520;
     font-size: 19px;
-    font-weight: 700;
 }
 
 .card p {
     color: #665b52;
     font-size: 14px;
     line-height: 1.9;
+}
+
+/* Latest videos */
+
+.video-preview {
+    max-width: 1150px;
+}
+
+.latest-videos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 35px;
+    text-align: left;
+}
+
+.latest-video {
+    background: white;
+    border: 1px solid #f1e5d9;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(70, 40, 20, 0.07);
+    min-width: 0;
+}
+
+.latest-video video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 9 / 12;
+    object-fit: contain;
+    background: #211c18;
+}
+
+.latest-video-info {
+    padding: 17px;
+}
+
+.latest-video-info h3 {
+    margin: 0;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+    color: #29231f;
+}
+
+.video-loading {
+    grid-column: 1 / -1;
+    background: white;
+    border: 1px solid #f1e5d9;
+    border-radius: 15px;
+    padding: 30px;
+    color: #8c7b6e;
+    font-size: 13px;
+    text-align: center;
 }
 
 /* Open source feature */
@@ -227,13 +334,38 @@ footer a:hover {
 
 /* Mobile */
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
+    .top-nav {
+        padding: 12px 15px;
+        gap: 10px;
+    }
 
-    header {
+    .nav-brand {
+        font-size: 16px;
+    }
+
+    .nav-brand img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .nav-links {
+        gap: 10px;
+    }
+
+    .nav-links a {
+        font-size: 9px;
+    }
+
+    .nav-links .upload-link {
+        padding: 9px 10px;
+    }
+
+    .hero {
         padding: 55px 20px;
     }
 
-    header img {
+    .hero-logo {
         width: 120px;
         height: 120px;
     }
@@ -246,7 +378,7 @@ footer a:hover {
         font-size: 19px;
     }
 
-    header p {
+    .hero p {
         font-size: 14px;
     }
 
@@ -262,165 +394,248 @@ footer a:hover {
         width: 100%;
     }
 
+    .latest-videos {
+        grid-template-columns: 1fr;
+    }
 }
-
 </style>
-
 </head>
 
 <body>
 
-<header>
+<nav class="top-nav">
+    <a href="index.html" class="nav-brand">
+        <img src="cloudbery-logo.png" alt="Cloudbery">
+        Cloudbery
+    </a>
 
-<img src="cloudbery-logo.png" alt="Cloudbery Logo">
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="feed.html">Feed</a>
+        <a href="profile.html">Profile</a>
+        <a href="upload.html" class="upload-link">Upload Video</a>
+    </div>
+</nav>
 
-<h1>Cloudbery</h1>
+<header class="hero">
 
-<p class="tagline">
-Social media, with more to discover.
-</p>
+    <img class="hero-logo" src="cloudbery-logo.png" alt="Cloudbery Logo">
 
-<p>
-Cloudbery is an open-source social platform where you can
-connect with people who share your interests, discover short
-videos, and become part of communities.
-</p>
+    <h1>Cloudbery</h1>
 
-<div class="buttons">
+    <p class="tagline">
+        Social media, with more to discover.
+    </p>
 
-<a href="signup.html">Join Cloudbery</a>
+    <p>
+        Cloudbery is an open-source social platform where you can
+        connect with people who share your interests, discover short
+        videos, and become part of communities.
+    </p>
 
-<a href="signin.html" class="secondary">Sign In</a>
-
-</div>
+    <div class="buttons">
+        <a href="signup.html">Join Cloudbery</a>
+        <a href="signin.html" class="secondary">Sign In</a>
+    </div>
 
 </header>
 
-
 <section class="orange-banner">
 
-<h2>Find Your People.</h2>
+    <h2>Find Your People.</h2>
 
-<p>
-Discover new interests, meet people from around the world,
-and share the things you enjoy. There's always something
-new around the corner.
-</p>
+    <p>
+        Discover new interests, meet people from around the world,
+        and share the things you enjoy. There's always something
+        new around the corner.
+    </p>
 
 </section>
-
 
 <section>
 
-<h2>What is Cloudbery?</h2>
+    <h2>What is Cloudbery?</h2>
 
-<p>
-Cloudbery is a social platform designed to bring people together.
-Instead of just scrolling through posts, you can discover people
-with similar interests, watch short videos, share content,
-and participate in communities.
-</p>
+    <p>
+        Cloudbery is a social platform designed to bring people together.
+        Instead of just scrolling through posts, you can discover people
+        with similar interests, watch short videos, share content,
+        and participate in communities.
+    </p>
 
 </section>
-
 
 <section>
 
-<h2>What Can You Do?</h2>
+    <h2>What Can You Do?</h2>
 
-<div class="cards">
+    <div class="cards">
 
-<div class="card">
+        <div class="card">
+            <h3>Connect With People</h3>
 
-<h3>Connect With People</h3>
+            <p>
+                Find people who enjoy the same hobbies, interests,
+                and topics as you. Make connections and discover
+                new communities.
+            </p>
+        </div>
 
-<p>
-Find people who enjoy the same hobbies, interests,
-and topics as you. Make connections and discover
-new communities.
-</p>
+        <div class="card">
+            <h3>Watch Short Videos</h3>
 
-</div>
+            <p>
+                Discover short videos, share your own content,
+                and explore what other people are creating.
+            </p>
+        </div>
 
+        <div class="card">
+            <h3>Join Communities</h3>
 
-<div class="card">
+            <p>
+                Find communities built around the things you enjoy.
+                Share ideas, participate in discussions,
+                and meet new people.
+            </p>
+        </div>
 
-<h3>Watch Short Videos</h3>
-
-<p>
-Discover short videos, share your own content,
-and explore what other people are creating.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>Join Communities</h3>
-
-<p>
-Find communities built around the things you enjoy.
-Share ideas, participate in discussions,
-and meet new people.
-</p>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
+<!-- Latest videos sneak peek -->
+
+<section class="video-preview">
+
+    <h2>Latest Videos</h2>
+
+    <p>
+        See what people are sharing on Cloudbery.
+    </p>
+
+    <div id="latestVideos" class="latest-videos">
+        <div class="video-loading">Loading videos...</div>
+    </div>
+
+    <div class="buttons">
+        <a href="feed.html">Explore All Videos</a>
+    </div>
+
+</section>
 
 <section>
 
-<div class="feature">
+    <div class="feature">
 
-<h2>Open Source Social Media</h2>
+        <h2>Open Source Social Media</h2>
 
-<p>
-Cloudbery is built around the idea that social media
-should be more open. An open-source platform gives
-people the opportunity to inspect, contribute to,
-and improve the software.
-</p>
+        <p>
+            Cloudbery is built around the idea that social media
+            should be more open. An open-source platform gives
+            people the opportunity to inspect, contribute to,
+            and improve the software.
+        </p>
 
-</div>
+    </div>
 
 </section>
-
 
 <section>
 
-<h2>Something New Is Growing.</h2>
+    <h2>Something New Is Growing.</h2>
 
-<p>
-Whether you're here to meet new people, discover interesting
-videos, or find communities that share your interests,
-there's a place for you on Cloudbery.
-</p>
+    <p>
+        Whether you're here to meet new people, discover interesting
+        videos, or find communities that share your interests,
+        there's a place for you on Cloudbery.
+    </p>
 
-<div class="buttons">
-
-<a href="signup.html">Get Started</a>
-
-</div>
+    <div class="buttons">
+        <a href="signup.html">Get Started</a>
+    </div>
 
 </section>
-
 
 <footer>
 
-<p><strong>Cloudbery</strong></p>
+    <p><strong>Cloudbery</strong></p>
 
-<p>Open-source social media.</p>
+    <p>Open-source social media.</p>
 
-<p>© 2026 Cloudbery. All rights reserved.</p>
+    <p>© 2026 Cloudbery. All rights reserved.</p>
 
 </footer>
 
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
 <script src="siteconfig.js"></script>
+
+<script>
+async function loadLatestVideos() {
+    const container = document.getElementById("latestVideos");
+
+    try {
+        const { data: videos, error } = await supabaseClient
+            .from("videos")
+            .select("id, title, video_path")
+            .order("created_at", { ascending: false })
+            .limit(3);
+
+        if (error) {
+            throw error;
+        }
+
+        container.replaceChildren();
+
+        if (!videos || videos.length === 0) {
+            const message = document.createElement("div");
+            message.className = "video-loading";
+            message.textContent = "No videos have been uploaded yet.";
+            container.appendChild(message);
+            return;
+        }
+
+        videos.forEach(video => {
+            const { data } = supabaseClient
+                .storage
+                .from("videos")
+                .getPublicUrl(video.video_path);
+
+            const card = document.createElement("article");
+            card.className = "latest-video";
+
+            const player = document.createElement("video");
+            player.src = data.publicUrl;
+            player.controls = true;
+            player.playsInline = true;
+            player.preload = "metadata";
+
+            const info = document.createElement("div");
+            info.className = "latest-video-info";
+
+            const title = document.createElement("h3");
+            title.textContent = video.title;
+
+            info.appendChild(title);
+            card.append(player, info);
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Could not load latest videos:", error);
+
+        container.replaceChildren();
+
+        const message = document.createElement("div");
+        message.className = "video-loading";
+        message.textContent = "Could not load videos. Please try again later.";
+        container.appendChild(message);
+    }
+}
+
+loadLatestVideos();
+</script>
 
 </body>
 </html>
