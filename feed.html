@@ -22,7 +22,7 @@ body {
 }
 
 header {
-    height: 72px;
+    min-height: 72px;
     background: white;
     border-bottom: 1px solid #f1e5d9;
     display: flex;
@@ -41,6 +41,7 @@ header {
     color: #e87525;
     font-size: 23px;
     font-weight: 700;
+    text-decoration: none;
 }
 
 .brand img {
@@ -52,18 +53,31 @@ header {
 nav {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
 }
 
 nav a {
     text-decoration: none;
     color: #75675d;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 nav a:hover {
     color: #e87525;
+}
+
+nav .upload-link {
+    background: #e87525;
+    color: white;
+    padding: 11px 16px;
+    border-radius: 25px;
+}
+
+nav .upload-link:hover {
+    background: #cf5f17;
+    color: white;
 }
 
 main {
@@ -85,15 +99,16 @@ main {
     margin: 0;
     color: #8c7b6e;
     font-size: 13px;
+    line-height: 1.6;
 }
 
 .search-box {
     display: flex;
     gap: 10px;
-    margin-bottom: 22px;
+    margin-bottom: 30px;
 }
 
-input, textarea {
+input {
     font-family: inherit;
 }
 
@@ -127,60 +142,12 @@ button:hover {
     background: #cf5f17;
 }
 
-.upload-panel {
-    background: white;
-    border: 1px solid #f1e5d9;
-    border-radius: 20px;
-    padding: 22px;
-    margin-bottom: 30px;
-}
-
-.upload-panel h2 {
-    margin: 0 0 8px;
-    font-size: 19px;
-}
-
-.upload-panel p {
-    color: #8c7b6e;
-    font-size: 12px;
-    line-height: 1.6;
-}
-
-.upload-panel input[type="file"] {
-    display: block;
-    width: 100%;
-    margin: 15px 0;
-    padding: 12px;
-    border: 1px dashed #e5cbb5;
-    border-radius: 12px;
-    background: #fffaf4;
-}
-
-.upload-panel input[type="text"] {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #eaded2;
-    border-radius: 12px;
-    background: #fffaf4;
-    margin-bottom: 12px;
-    outline: none;
-}
-
-.upload-panel input:focus {
-    border-color: #e87525;
-}
-
-#uploadStatus {
-    font-size: 12px;
-    color: #75675d;
-    margin-top: 12px;
-}
-
 .feed-heading {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 18px;
+    gap: 15px;
 }
 
 .feed-heading h2 {
@@ -275,15 +242,22 @@ footer {
 
 @media (max-width: 650px) {
     header {
-        padding: 0 15px;
+        padding: 12px 15px;
+        flex-wrap: wrap;
+        gap: 12px;
     }
 
     nav {
-        gap: 11px;
+        gap: 12px;
+        flex-wrap: wrap;
     }
 
     nav a {
         font-size: 10px;
+    }
+
+    nav .upload-link {
+        padding: 9px 12px;
     }
 
     .brand {
@@ -313,15 +287,16 @@ footer {
 <body>
 
 <header>
-    <div class="brand">
+    <a class="brand" href="index.html">
         <img src="cloudbery-logo.png" alt="Cloudbery">
         Cloudbery
-    </div>
+    </a>
 
     <nav>
         <a href="index.html">Home</a>
         <a href="feed.html">Feed</a>
         <a href="profile.html">Profile</a>
+        <a href="upload.html" class="upload-link">Upload Video</a>
     </nav>
 </header>
 
@@ -336,31 +311,11 @@ footer {
         <input
             type="search"
             id="videoSearch"
-            placeholder="Search videos or creators..."
+            placeholder="Search video titles..."
+            onkeydown="if(event.key === 'Enter') searchVideos()"
         >
         <button onclick="searchVideos()">Search</button>
     </div>
-
-    <section class="upload-panel">
-        <h2>Upload a Video</h2>
-        <p>Share a video with the Cloudbery community.</p>
-
-        <input
-            type="text"
-            id="videoTitle"
-            placeholder="Give your video a title..."
-        >
-
-        <input
-            type="file"
-            id="videoFile"
-            accept="video/*"
-        >
-
-        <button onclick="uploadVideo()">Upload Video</button>
-
-        <div id="uploadStatus"></div>
-    </section>
 
     <section>
         <div class="feed-heading">
