@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feed - Cloudbery</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #fffaf4;
+    color: #29231f;
+    font-family: 'Comfortaa', sans-serif;
+}
+
+header {
+    height: 72px;
+    background: white;
+    border-bottom: 1px solid #f1e5d9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #e87525;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.brand img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #75675d;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+nav a:hover {
+    color: #e87525;
+}
+
+main {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    margin-bottom: 25px;
+}
+
+.page-title h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+.page-title p {
+    margin: 0;
+    color: #8c7b6e;
+    font-size: 13px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+input, textarea {
+    font-family: inherit;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    padding: 15px;
+    border: 1px solid #eaded2;
+    border-radius: 30px;
+    background: white;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #e87525;
+}
+
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 13px 22px;
+    background: #e87525;
+    color: white;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #cf5f17;
+}
+
+.upload-panel {
+    background: white;
+    border: 1px solid #f1e5d9;
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 30px;
+}
+
+.upload-panel h2 {
+    margin: 0 0 8px;
+    font-size: 19px;
+}
+
+.upload-panel p {
+    color: #8c7b6e;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.upload-panel input[type="file"] {
+    display: block;
+    width: 100%;
+    margin: 15px 0;
+    padding: 12px;
+    border: 1px dashed #e5cbb5;
+    border-radius: 12px;
+    background: #fffaf4;
+}
+
+.upload-panel input[type="text"] {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #eaded2;
+    border-radius: 12px;
+    background: #fffaf4;
+    margin-bottom: 12px;
+    outline: none;
+}
+
+.upload-panel input:focus {
+    border-color: #e87525;
+}
+
+#uploadStatus {
+    font-size: 12px;
+    color: #75675d;
+    margin-top: 12px;
+}
+
+.feed-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.feed-heading h2 {
+    font-size: 21px;
+    margin: 0;
+}
+
+.feed-heading select {
+    padding: 10px;
+    border: 1px solid #eaded2;
+    border-radius: 12px;
+    background: white;
+    font-family: inherit;
+    color: #75675d;
+}
+
+#videoFeed {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.video-card {
+    min-width: 0;
+    background: white;
+    border: 1px solid #f1e5d9;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.video-card video {
+    width: 100%;
+    aspect-ratio: 9 / 12;
+    display: block;
+    background: #211c18;
+    object-fit: contain;
+}
+
+.video-info {
+    padding: 17px;
+}
+
+.video-info h3 {
+    font-size: 15px;
+    margin: 0 0 8px;
+    overflow-wrap: anywhere;
+}
+
+.video-info p {
+    color: #8c7b6e;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0 0 12px;
+}
+
+.video-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.video-actions button {
+    padding: 9px 15px;
+    font-size: 11px;
+}
+
+.creator {
+    color: #e87525;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+#emptyFeed {
+    grid-column: 1 / -1;
+    background: white;
+    border: 1px solid #f1e5d9;
+    border-radius: 18px;
+    padding: 35px 20px;
+    text-align: center;
+    color: #8c7b6e;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+footer {
+    text-align: center;
+    color: #a99b90;
+    font-size: 11px;
+    padding: 35px 15px;
+}
+
+@media (max-width: 650px) {
+    header {
+        padding: 0 15px;
+    }
+
+    nav {
+        gap: 11px;
+    }
+
+    nav a {
+        font-size: 10px;
+    }
+
+    .brand {
+        font-size: 18px;
+    }
+
+    .brand img {
+        width: 32px;
+        height: 32px;
+    }
+
+    main {
+        padding: 0 13px;
+    }
+
+    #videoFeed {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box button {
+        padding: 12px 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">
+        <img src="cloudbery-logo.png" alt="Cloudbery">
+        Cloudbery
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="feed.html">Feed</a>
+        <a href="profile.html">Profile</a>
+    </nav>
+</header>
+
+<main>
+
+    <div class="page-title">
+        <h1>Your Feed</h1>
+        <p>Videos from everyone on Cloudbery.</p>
+    </div>
+
+    <div class="search-box">
+        <input
+            type="search"
+            id="videoSearch"
+            placeholder="Search videos or creators..."
+        >
+        <button onclick="searchVideos()">Search</button>
+    </div>
+
+    <section class="upload-panel">
+        <h2>Upload a Video</h2>
+        <p>Share a video with the Cloudbery community.</p>
+
+        <input
+            type="text"
+            id="videoTitle"
+            placeholder="Give your video a title..."
+        >
+
+        <input
+            type="file"
+            id="videoFile"
+            accept="video/*"
+        >
+
+        <button onclick="uploadVideo()">Upload Video</button>
+
+        <div id="uploadStatus"></div>
+    </section>
+
+    <section>
+        <div class="feed-heading">
+            <h2>Discover Videos</h2>
+
+            <select id="feedSort" onchange="loadVideos()">
+                <option value="random">Random</option>
+                <option value="newest">Newest</option>
+            </select>
+        </div>
+
+        <div id="videoFeed">
+            <div id="emptyFeed">
+                Loading videos...
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    © 2026 Cloudbery · Open-source social media
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="videos.js"></script>
+
+</body>
+</html>
