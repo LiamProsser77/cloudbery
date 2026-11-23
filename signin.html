@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Sign In - Cloudbery</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -147,32 +144,25 @@ footer {
         font-size: 30px;
     }
 }
-
 </style>
 </head>
 
 <body>
 
 <header>
-
     <img src="cloudbery-logo.png" alt="Cloudbery Logo">
-
     <h1>Cloudbery</h1>
-
     <p>Welcome back. Your people are waiting.</p>
-
 </header>
 
 <div class="box">
-
     <h2>Welcome Back</h2>
 
     <form onsubmit="signIn(event)">
-
         <input
-            id="username"
-            type="text"
-            placeholder="Username"
+            id="email"
+            type="email"
+            placeholder="Email Address"
             required
         >
 
@@ -183,17 +173,13 @@ footer {
             required
         >
 
-        <button type="submit">
-            Sign In
-        </button>
-
+        <button type="submit">Sign In</button>
     </form>
 
     <p class="account-link">
         Need an account?
         <a href="signup.html">Sign Up</a>
     </p>
-
 </div>
 
 <footer>
